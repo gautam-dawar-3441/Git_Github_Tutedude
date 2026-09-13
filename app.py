@@ -25,10 +25,20 @@ def api():
             "error": str(e)
         }), 500
 
+@app.route('/submittodoitem', methods=['POST'])
+def submit_todo_item():
+    item_name = request.form.get('itemName')
+    item_description = request.form.get('itemDescription')
+
+    collection.insert_one({
+        "itemName": item_name,
+        "itemDescription": item_description
+    })
+
+    return "Data submitted successfully"
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-
     if request.method == "POST":
         try:
             name = request.form.get("name")
